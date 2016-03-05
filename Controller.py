@@ -4,15 +4,17 @@ import argparse
 import logging
 
 class Controller:
-	def __init__(self, query, log_level):
+	def __init__(self, rsz, query, log_level):
+		self.rsz = rsz
 		self.query = query
 		self.numPages = numPages
 		self.log_level = log_level
 
 	def getWebResultsForQuery(self):
-		searcher = Searcher(self.query, log_level=self.log_level)
+		searcher = Searcher(self.query, self.rsz, log_level=self.log_level)
 		result = searcher.search()
 		resultQueue = []
+
 		for i in range(len(result)):
 			resultQueue.append(result[i]['url'])
 		

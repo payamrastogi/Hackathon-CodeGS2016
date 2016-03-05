@@ -3,6 +3,7 @@ from BaseHTTPServer import BaseHTTPRequestHandler,HTTPServer
 from urlparse import urlparse, parse_qs
 from Controller import Controller
 import logging
+import json
 
 PORT_NUMBER = 7777
 
@@ -14,7 +15,8 @@ class myHandler(BaseHTTPRequestHandler):
 	def do_GET(self):
 		query_components = parse_qs(urlparse(self.path).query)
 		query_phrase = query_components["query"] 
-		
+		result = self._processQuery(query_phrase)
+		print (unicode(json.dumps(result, ensure_ascii=False, indent=4, separators=(',', ': '))))
 		self.send_response(200)
 		self.send_header('Content-type','text/html')
 		self.end_headers()
@@ -27,6 +29,8 @@ class myHandler(BaseHTTPRequestHandler):
 
 	def _processQuery(self, query):
 		controller = Controller(query, logging.DEBUG)
+		result = controller.getWebResultsForQuery()
+		return result
 
 try:
 	#Create a web server and define the handler to manage the
