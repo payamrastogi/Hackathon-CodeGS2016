@@ -16,19 +16,19 @@ class myHandler(BaseHTTPRequestHandler):
 		query_components = parse_qs(urlparse(self.path).query)
 		query_phrase = query_components["query"] 
 		result = self._processQuery(query_phrase)
-		print (unicode(json.dumps(result, ensure_ascii=False, indent=4, separators=(',', ': '))))
+		result_json = (unicode(json.dumps(result, ensure_ascii=False, indent=4, separators=(',', ': '))))
 		self.send_response(200)
-		self.send_header('Content-type','text/html')
+		self.send_header('Content-type','text/json')
 		self.end_headers()
 		# Send the html message
-		self.wfile.write("Hello World !")
+		self.wfile.write(result_json)
 		return
 
 	def do_POST(self):
 		self.doGET()
 
 	def _processQuery(self, query):
-		controller = Controller(query, logging.DEBUG)
+		controller = Controller(4, query,logging.DEBUG)
 		result = controller.getWebResultsForQuery()
 		return result
 
