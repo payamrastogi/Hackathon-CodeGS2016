@@ -12,6 +12,7 @@ class Controller:
 		searcher = Searcher(self.query, log_level=self.log_level)
 		result = searcher.search()
 		resultQueue = []
+
 		for i in range(len(result)):
 			resultQueue.append(result[i]['url'])
 		
@@ -23,6 +24,8 @@ class Controller:
 			query = resultQueue[i]
 			response = sentimentOutput.makeRequest(query)
 			sentimentResult = sentimentOutput.parseResponse(response)
+			if sentimentResult == None:
+				continue
 			sentimentResultType = sentimentResult["type"]
 			sentimentResultScore = sentimentResult["score"]
 			typeScoreList = []
