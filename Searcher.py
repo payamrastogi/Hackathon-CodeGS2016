@@ -10,7 +10,7 @@ search_url = "http://ajax.googleapis.com/ajax/services/search/web"
 class Searcher(object):
 
     """ initializing Searcher object """ 
-    def __init__(self, rsz, query, log_level):
+    def __init__(self, query, rsz, log_level):
         self.query = query;
         self.rsz = rsz #results per page - 4/8
         self.filter = 0; #turn on duplicate content filter
