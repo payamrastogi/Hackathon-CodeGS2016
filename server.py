@@ -14,14 +14,20 @@ class myHandler(BaseHTTPRequestHandler):
 	#Handler for the GET requests
 	def do_GET(self):
 		query_components = parse_qs(urlparse(self.path).query)
-		print query_components
-		query_phrase = query_components["query"] 
-		result = self._processQuery(query_phrase)
+		if query_components:
+			query_phrase = query_components["query"] 
+			if query_phrase:
+				result = self._processQuery(query_phrase)
+			else:
+				result = dict()
+				result["status"] = "error:no_query"
+		else:
+			result = dict()
+			result["status"] = "error:malformed_query"
 		result_json = (unicode(json.dumps(result, ensure_ascii=False, indent=4, separators=(',', ': '))))
 		self.send_response(200)
 		self.send_header('Content-type','text/json')
 		self.end_headers()
-		# Send the html message
 		self.wfile.write(result_json)
 		return
 

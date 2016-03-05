@@ -13,29 +13,29 @@ class Controller:
 		searcher = Searcher(self.query, self.rsz, log_level=self.log_level)
 		result = searcher.search()
 		resultQueue = []
-
-		for i in range(len(result)):
-			resultQueue.append(result[i]['url'])
-		
-		sentimentOutput = sentiment.SentimentAnalysis()
-		sentimentScores = []
-		sentimentTypes = []
 		resultsDict = dict()
-		totalScore = 0
-		for i in range(len(resultQueue)):
-			query = resultQueue[i]
-			response = sentimentOutput.makeRequest(query)
-			sentimentResult = sentimentOutput.parseResponse(response)
-			if sentimentResult == None:
-				continue
-			sentimentResultType = sentimentResult["type"]
-			sentimentResultScore = sentimentResult["score"]
-			totalScore += float(sentimentResultScore)
-			typeScoreList = []
-			typeScoreList.append(sentimentResultType)
-			typeScoreList.append(sentimentResultScore)
-			resultsDict[query] =  typeScoreList
-		resultsDict["averageScore"] = totalScore/self.rsz
+		if result:
+			for i in range(len(result)):
+				resultQueue.append(result[i]['url'])
+		
+			sentimentOutput = sentiment.SentimentAnalysis()
+			sentimentScores = []
+			sentimentTypes = []
+			totalScore = 0
+			for i in range(len(resultQueue)):
+				query = resultQueue[i]
+				response = sentimentOutput.makeRequest(query)
+				sentimentResult = sentimentOutput.parseResponse(response)
+				if sentimentResult == None:
+					continue
+				sentimentResultType = sentimentResult["type"]
+				sentimentResultScore = sentimentResult["score"]
+				totalScore += float(sentimentResultScore)
+				typeScoreList = []
+				typeScoreList.append(sentimentResultType)
+				typeScoreList.append(sentimentResultScore)
+				resultsDict[query] =  typeScoreList
+			resultsDict["averageScore"] = totalScore/self.rsz
 		return resultsDict
 
 def main():		
