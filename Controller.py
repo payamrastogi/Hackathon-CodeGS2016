@@ -21,6 +21,7 @@ class Controller:
 		sentimentScores = []
 		sentimentTypes = []
 		resultsDict = dict()
+		totalScore = 0
 		for i in range(len(resultQueue)):
 			query = resultQueue[i]
 			response = sentimentOutput.makeRequest(query)
@@ -29,10 +30,12 @@ class Controller:
 				continue
 			sentimentResultType = sentimentResult["type"]
 			sentimentResultScore = sentimentResult["score"]
+			totalScore += float(sentimentResultScore)
 			typeScoreList = []
 			typeScoreList.append(sentimentResultType)
 			typeScoreList.append(sentimentResultScore)
 			resultsDict[query] =  typeScoreList
+		resultsDict["averageScore"] = totalScore/self.rsz
 		return resultsDict
 
 def main():		
