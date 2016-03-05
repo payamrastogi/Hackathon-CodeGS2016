@@ -30,13 +30,12 @@ class Controller:
 				continue
 			sentimentResultType = sentimentResult["type"]
 			sentimentResultScore = sentimentResult["score"]
-			totalScore += sentimentResultScore
+			totalScore += float(sentimentResultScore)
 			typeScoreList = []
 			typeScoreList.append(sentimentResultType)
 			typeScoreList.append(sentimentResultScore)
 			resultsDict[query] =  typeScoreList
-		resultsDict["averageScore"] = totalScore/rsz
-		print resultsDict["averageScore"]
+		resultsDict["averageScore"] = totalScore/self.rsz
 		return resultsDict
 
 def main():		
@@ -50,7 +49,6 @@ def main():
  		exit()
 	controller = Controller(4, query, log_level)
 	result = controller.getWebResultsForQuery()
-	print len(result)
 
 if __name__ == "__main__":
     main()
