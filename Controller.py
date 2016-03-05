@@ -7,7 +7,6 @@ class Controller:
 	def __init__(self, rsz, query, log_level):
 		self.rsz = rsz
 		self.query = query
-		self.numPages = numPages
 		self.log_level = log_level
 
 	def getWebResultsForQuery(self):
@@ -36,7 +35,8 @@ class Controller:
 			typeScoreList.append(sentimentResultType)
 			typeScoreList.append(sentimentResultScore)
 			resultsDict[query] =  typeScoreList
-		resultsDict["averageScore"] = totalScore/numPages
+		resultsDict["averageScore"] = totalScore/rsz
+		print resultsDict["averageScore"]
 		return resultsDict
 
 def main():		
@@ -48,7 +48,7 @@ def main():
 	if not query: 
 		parser.print_help()
  		exit()
-	controller = Controller(query, log_level)
+	controller = Controller(4, query, log_level)
 	result = controller.getWebResultsForQuery()
 	print len(result)
 
