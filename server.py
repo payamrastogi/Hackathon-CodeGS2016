@@ -27,6 +27,9 @@ class myHandler(BaseHTTPRequestHandler):
 		result_json = (unicode(json.dumps(result, ensure_ascii=False, indent=4, separators=(',', ': '))))
 		self.send_response(200)
 		self.send_header('Content-type','text/json')
+		self.send_header("Access-Control-Allow-Origin","*")
+		self.send_header("Access-Control-Expose-Headers: Access-Control-Allow-Origin")
+		self.send_header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept")
 		self.end_headers()
 		self.wfile.write(result_json)
 		return
