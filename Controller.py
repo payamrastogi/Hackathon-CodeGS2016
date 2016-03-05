@@ -44,7 +44,7 @@ def main():
 	if not query: 
 		parser.print_help()
  		exit()
-	controller = Controller(query, log_level)
+	controller = Controller(4, query, log_level)
 	result = controller.getWebResultsForQuery()
 
 if __name__ == "__main__":
