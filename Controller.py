@@ -6,6 +6,7 @@ import logging
 class Controller:
 	def __init__(self, query, log_level):
 		self.query = query
+		self.numPages = numPages
 		self.log_level = log_level
 
 	def getWebResultsForQuery(self):
@@ -19,16 +20,21 @@ class Controller:
 		sentimentScores = []
 		sentimentTypes = []
 		resultsDict = dict()
+		totalScore = 0
 		for i in range(len(resultQueue)):
 			query = resultQueue[i]
 			response = sentimentOutput.makeRequest(query)
 			sentimentResult = sentimentOutput.parseResponse(response)
+			if sentimentResult == None:
+				continue
 			sentimentResultType = sentimentResult["type"]
 			sentimentResultScore = sentimentResult["score"]
+			totalScore += sentimentResultScore
 			typeScoreList = []
 			typeScoreList.append(sentimentResultType)
 			typeScoreList.append(sentimentResultScore)
 			resultsDict[query] =  typeScoreList
+		resultsDict["averageScore"] = totalScore/numPages
 		return resultsDict
 
 def main():		
@@ -42,6 +48,7 @@ def main():
  		exit()
 	controller = Controller(query, log_level)
 	result = controller.getWebResultsForQuery()
+	print len(result)
 
 if __name__ == "__main__":
     main()
