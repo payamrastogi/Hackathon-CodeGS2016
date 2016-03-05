@@ -14,6 +14,7 @@ class myHandler(BaseHTTPRequestHandler):
 	#Handler for the GET requests
 	def do_GET(self):
 		query_components = parse_qs(urlparse(self.path).query)
+		print query_components
 		query_phrase = query_components["query"] 
 		result = self._processQuery(query_phrase)
 		result_json = (unicode(json.dumps(result, ensure_ascii=False, indent=4, separators=(',', ': '))))
